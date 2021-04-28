@@ -41,6 +41,21 @@ client.on('ready', async () => {
         }
     })
 
+    await getApp(guildId).commands.post({
+        data: {
+            name: 'anothertestcommand',
+            description: 'Me testing how this second one works',
+            options: [
+                {
+                    name: 'Password',
+                    description: 'Password required',
+                    required: true,
+                    type: 3
+                }
+            ]
+        }
+    })
+
     client.ws.on('INTERACTION_CREATE', async (interaction) => {
         const { name, options } = interaction.data
 
@@ -68,6 +83,25 @@ client.on('ready', async () => {
             }
             if (value === 'yuh') {
                 reply(interaction, 'this works')
+            }
+            else {
+                reply(interaction, 'wrong password')
+            }
+        } else if (command === 'anothertestcommand') {
+            value = 0
+            for (const arg in args) {
+                value = args[arg]
+            }
+            if (value === 'yayeet') {
+                client.api.interactions(interaction.id, interaction.token).callback.post({
+                    data: {
+                      type: 3,
+                      data: {
+                        content: `I'm currently looking it up - it'll be directly messaged to you soon.`,
+                        flags: 1<<6
+                      },
+                    },
+                  });
             }
             else {
                 reply(interaction, 'wrong password')
