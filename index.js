@@ -41,27 +41,6 @@ client.on('ready', async () => {
         }
     })
 
-    await getApp(guildId).commands.post({
-        data: {
-            name: 'embed',
-            description: 'Displays an embed',
-            options: [
-                {
-                    name: 'Name',
-                    description: 'Your name',
-                    required: true,
-                    type: 3 // string
-                },
-                {
-                    name: 'Age',
-                    description: 'Your age',
-                    required: false,
-                    type: 4 // integer
-                }
-            ]
-        }
-    })
-
     client.ws.on('INTERACTION_CREATE', async (interaction) => {
         const { name, options } = interaction.data
 
@@ -82,17 +61,10 @@ client.on('ready', async () => {
 
         if (command === 'ping') {
             reply(interaction, 'pong')
-        } else if (command === 'embed') {
-            const embed = new DiscordJS.MessageEmbed()
-                .setTitle('Example Embed')
-            
-            for (const arg in args) {
-                const value = args[arg]
-                embed.addField(arg, value)
-            }
         } else if (command === 'testcommand') {
+            value = 0
             for (const arg in args) {
-                const value = args[arg]
+                value = args[arg]
             }
             if (value === 'yuh') {
                 reply(interaction, 'this works')
